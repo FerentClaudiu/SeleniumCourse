@@ -16,6 +16,11 @@ public class TestSample {
         //testSample.switchToAlert();
         //testSample.javaScript();
         //testSample.dragAndDrop();
+        //testSample.radioButtons();
+        //testSample.checkboxes();
+        //testSample.datepicker();
+        //testSample.dropdown();
+        //testSample.fileUpload();
 
 
     }
@@ -102,6 +107,52 @@ public class TestSample {
         actions.dragAndDrop(image, box).build().perform();
 
 
+    }
+
+    public void radioButtons() {
+        driver.get("https://formy-project.herokuapp.com/radiobutton");
+
+        WebElement radioButton1 = driver.findElement(By.id("radio-button-1"));
+        radioButton1.click();
+        WebElement radioButton2 = driver.findElement(By.cssSelector("input[value='option2"));
+        radioButton2.click();
+        WebElement radioButton3 = driver.findElement(By.xpath("/html/body/div/div[3]/input"));
+        radioButton3.click();
+
+    }
+
+    public void checkboxes() {
+        driver.get("https://formy-project.herokuapp.com/checkbox");
+        WebElement checkbox1 = driver.findElement(By.id("checkbox-1"));
+        checkbox1.click();
+        WebElement checkbox2 = driver.findElement(By.cssSelector("#checkbox-2"));
+        checkbox2.click();
+        WebElement checkbox3 = driver.findElement(By.cssSelector("#checkbox-3"));
+        checkbox3.click();
+    }
+
+    public void datepicker() {
+        driver.get("https://formy-project.herokuapp.com/datepicker");
+        WebElement datefield = driver.findElement(By.id("datepicker"));
+        datefield.sendKeys("02/22/2019");
+        datefield.sendKeys(Keys.RETURN);
+
+    }
+
+    public void dropdown() {
+        driver.get("https://formy-project.herokuapp.com/dropdown");
+        WebElement dropdownButton = driver.findElement(By.id("dropdownMenuButton"));
+        dropdownButton.click();
+
+        WebElement autocompleteItem = driver.findElement(By.id("autocomplete"));
+        autocompleteItem.click();
+
+    }
+
+    public void fileUpload() {
+        driver.get("https://formy-project.herokuapp.com/fileupload");
+        WebElement uploadField = driver.findElement(By.id("file-upload-field"));
+        uploadField.sendKeys("image.jpeg");
     }
 
 
