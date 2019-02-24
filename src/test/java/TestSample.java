@@ -1,14 +1,29 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class TestSample {
+import java.util.concurrent.TimeUnit;
 
-    WebDriver driver = new ChromeDriver();
+import static junit.framework.Assert.assertEquals;
 
-    public static void main(String[] args) throws InterruptedException {
+public class TestSample  {
+
+    private static WebDriver driver;
+
+    public void openBrowser() {
         System.setProperty("webdriver.chrome.driver", "/home/claudiu/TestSample/resources/chromedriver");
+        driver = new ChromeDriver();
+    }
+
+
+    public static void main(String[] args)  {
+
         TestSample testSample = new TestSample();
+        testSample.openBrowser();
+        Form form = new Form();
+        form.completeForm(driver);
         //testSample.keyPress();
         //testSample.autocomplete();
         //testSample.scrollToElement();
@@ -21,6 +36,9 @@ public class TestSample {
         //testSample.datepicker();
         //testSample.dropdown();
         //testSample.fileUpload();
+        //testSample.completeForm();
+
+
 
 
     }
@@ -37,15 +55,17 @@ public class TestSample {
 
     }
 
-    public void autocomplete() throws InterruptedException {
+    public void autocomplete() {
         driver.get("https://formy-project.herokuapp.com/autocomplete");
+        WebDriverWait wait = new WebDriverWait(driver,10);
         WebElement autocomplete = driver.findElement(By.id("autocomplete"));
         autocomplete.sendKeys("Via Marte Province of Padua ");
-        Thread.sleep(1000);
+        //Thread.sleep(1000);
+        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        WebElement autocompleteResult = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("pac-item")));
 
-        WebElement autocompleteResult = driver.findElement(By.className("pac-item"));
+        //WebElement autocompleteResult = driver.findElement(By.className("pac-item"));
         autocompleteResult.click();
-        driver.quit();
 
     }
 
@@ -153,6 +173,28 @@ public class TestSample {
         driver.get("https://formy-project.herokuapp.com/fileupload");
         WebElement uploadField = driver.findElement(By.id("file-upload-field"));
         uploadField.sendKeys("image.jpeg");
+    }
+
+    public  void completeForm() {
+
+        driver.get("https://formy-project.herokuapp.com/form");
+        driver.findElement(By.id("first-name")).sendKeys("Claudiu");
+        driver.findElement(By.id("last-name")).sendKeys("Ferent");
+        driver.findElement(By.id("job-title")).sendKeys("QA Engineer");
+        driver.findElement(By.id("radio-button-2")).click();
+        driver.findElement(By.id("checkbox-2")).click();
+        driver.findElement(By.cssSelector("option[value='1']")).click();
+        driver.findElement(By.id("datepicker")).sendKeys("02/23/2019");
+        driver.findElement(By.id("datepicker")).sendKeys(Keys.RETURN);
+        driver.findElement(By.cssSelector(".btn.btn-lg.btn-primary")).click();
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement alert = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("alert")));
+
+        String alertText = alert.getText();
+        assertEquals("The form was successfully submitted!", alertText);
+
+
     }
 
 
